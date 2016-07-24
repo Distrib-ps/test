@@ -15,7 +15,7 @@ exports.proxyip = ['127.0.0.0/8'];
 //   in every Random Battle team.
 exports.potd = '';
 exports.superAdmins = {
-	"brekfree": 1
+	"choeloo": 1
 };
 
 // crash guard - write errors to log file instead of crashing
@@ -55,7 +55,7 @@ exports.loginserverpublickey = "-----BEGIN RSA PUBLIC KEY-----\n" +
 		port: 465,
 		secure: true,
 		auth: {
-			user: 'example@domain.com',
+			user: 'choloo',theodelhay
 			pass: 'password'
 		}
 	},
@@ -121,7 +121,7 @@ exports.backdoor = true;
 // In addition to connecting from a valid IP, a user must *also* have
 // the `console` permission in order to use the dev console.
 // Setting this to an empty array ([]) will disable the dev console.
-exports.consoleips = ['127.0.0.1'];
+exports.consoleips = ['81.250.80.162'];
 
 // Whether to watch the config file for changes. If this is enabled,
 // then the config.js file will be reloaded when it is changed.
