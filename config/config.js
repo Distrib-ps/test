@@ -15,7 +15,7 @@ exports.proxyip = ['127.0.0.0/8'];
 //   in every Random Battle team.
 exports.potd = '';
 exports.superAdmins = {
-	"Distrib": 1
+	"Distrib ☆": 1
 };
 
 // crash guard - write errors to log file instead of crashing
@@ -55,7 +55,7 @@ exports.loginserverpublickey = "-----BEGIN RSA PUBLIC KEY-----\n" +
 		port: 465,
 		secure: true,
 		auth: {
-			user: 'choloo',theodelhay
+			user: 'Distrib ☆',theodelhay
 			pass: 'password'
 		}
 	},
