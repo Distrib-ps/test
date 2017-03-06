@@ -15,7 +15,7 @@ exports.proxyip = ['127.0.0.0/8'];
 //   in every Random Battle team.
 exports.potd = '';
 exports.superAdmins = {
-	"Distrib ☆": 1
+	"distrib ": 1
 };
 
 // crash guard - write errors to log file instead of crashing
@@ -228,15 +228,6 @@ exports.replsocketmode = 0700;
 //     - tournamentsmanagement: enable/disable tournaments.
 exports.grouplist = [
 	{
-		symbol: ' ',
-		ip: 's',
-		alts: 's'
-		id: "rien",
-		name: "rien",
-		root: false,
-		globalonly: false
-	},
-	{
 		symbol: '~',
 		id: "admin",
 		name: "Administrator",
@@ -282,6 +273,8 @@ exports.grouplist = [
 		modchat: true,
 		roomonly: true,
 		privateroom: true,
+		youtube: true,
+		admin: true,
 		joinbattle: true
 	},
 	{
