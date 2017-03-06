@@ -269,12 +269,13 @@ exports.grouplist = [
 		id: "player",
 		name: "Player",
 		inherit: '+',
+		jurisdiction: 'u',
 		roomvoice: true,
 		modchat: true,
 		roomonly: true,
 		privateroom: true,
 		youtube: true,
-		globalonly: true
+		globalonly: true,
 		joinbattle: true
 	},
 	{
