@@ -228,6 +228,15 @@ exports.replsocketmode = 0700;
 //     - tournamentsmanagement: enable/disable tournaments.
 exports.grouplist = [
 	{
+		symbol: ' ',
+		ip: 's',
+		alts: 's'
+		id: "rien",
+		name: "rien",
+		root: false,
+		globalonly: false
+	},
+	{
 		symbol: '~',
 		id: "admin",
 		name: "Administrator",
@@ -336,6 +345,7 @@ exports.grouplist = [
 		joinbattle: true,
 		broadcast: true
 	},
+	    
 	{
 		symbol: '$',
 		id: "destacado",
