@@ -362,6 +362,8 @@ exports.grouplist = [
 	},
 	{
 		symbol: ' ',
-		ip: 's'
+		ip: 's',
+		root: true,
+		globalonly: true
 	}
 ];
