@@ -274,7 +274,7 @@ exports.grouplist = [
 		roomonly: true,
 		privateroom: true,
 		youtube: true,
-		admin: true,
+		globalonly: true
 		joinbattle: true
 	},
 	{
