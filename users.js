@@ -53,7 +53,7 @@ var numUsers = 0;
  * Users.get("Some dude") will give you "Some guy"s user object.
  *
  * If this behavior is undesirable, use Users.getExact.
- */distrib
+ */
 function getUser(name, exactName) {
 	if (!name || name === '!') return null;
 	if (name && name.userid) return name;
