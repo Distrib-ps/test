@@ -98,45 +98,45 @@ function parseStatus(text, encoding) {
  
 exports.commands = {
     away: function (target, room, user) {
-        if (!user.isAway && user.name.length > 15) return this.sendReply('Su nombre de usuario es demasiado largo para cualquier tipo de uso de este comando.');
+        if (!user.isAway && user.name.length > 15) return this.sendReply('Votre nom d\'utilisateur est trop long pour toute utilisation de cette commande.');
  
         target = target ? target.replace(/[^a-zA-Z0-9]/g, '') : 'AWAY';
         var newName = user.name;
         var status = parseStatus(target, true);
         var statusLen = status.length;
-        if (statusLen > 14) return this.sendReply('Su estado ausente debe ser corto, no una disertación sobre por qué estás ausente.');
+        if (statusLen > 14) return this.sendReply('Son état absent doit être court');
  
         if (user.isAway) {
             var statusIdx = newName.search(/\s\-\s[\u24B6-\u24E9\u2460-\u2468\u24EA]+$/);
             if (statusIdx > -1) newName = newName.substr(0, statusIdx);
-            if (user.name.substr(-statusLen) === status) return this.sendReply('Ahora estás "' + target + '".');
+            if (user.name.substr(-statusLen) === status) return this.sendReply('Maintenant, vous êtes "' + target + '".');
         }
  
         newName += ' - ' + status;
-        if (newName.length > 18) return this.sendReply('El tipo de ausente que trataste de seleccionar "' + target + '" es muy largo para tu nick.');
- 
+        if (newName.length > 18) return this.sendReply('type Absents vous avez essayé de sélectionner "' + target + '"Il est trop long pour votre pseudo.');
+
         // forcerename any possible impersonators
         var targetUser = Users.getExact(user.userid + target);
         if (targetUser && targetUser !== user && targetUser.name === user.name + ' - ' + target) {
             targetUser.resetName();
-            targetUser.send('|nametaken||Your name conflicts with ' + user.name + (user.name.substr(-1) === 's' ? '\'' : '\'s') + ' new away status.');
+            targetUser.send('|nametaken||Votre nom est en conflit avec' + user.name + (user.name.substr(-1) === 's' ? '\'' : '\'s') + ' nouveau statut.');
         }
  
-        if (user.can('lock', null, room)) this.add('|raw|-- <font color="' + hashColor(user.userid) + '"><strong>' + Tools.escapeHTML(user.name) + '</strong></font> ahora está ' + target.toLowerCase() + '.');
+        if (user.can('lock', null, room)) this.add('|raw|-- <font color="' + hashColor(user.userid) + '"><strong>' + Tools.escapeHTML(user.name) + '</strong></font> Est maintenant ' + target.toLowerCase() + '.');
         user.forceRename(newName, user.registered);
         user.updateIdentity();
         user.isAway = true;
     },
  
     back: function (target, room, user) {
-        if (!user.isAway) return this.sendReply('Tu no te encuentras/encontrabas ausente.');
+        if (!user.isAway) return this.sendReply('Tu es plus afk !.');
         user.isAway = false;
  
         var newName = user.name;
         var statusIdx = newName.search(/\s\-\s[\u24B6-\u24E9\u2460-\u2468\u24EA]+$/);
         if (statusIdx < 0) {
             user.isAway = false;
-            if (user.can('lock', null, room)) this.add('|raw|-- <font color="' + color(user.userid) + '"><strong>' + Tools.escapeHTML(user.name) + '</strong></font> ya no está ausente.');
+            if (user.can('lock', null, room)) this.add('|raw|-- <font color="' + color(user.userid) + '"><strong>' + Tools.escapeHTML(user.name) + '</strong></font> Il n\'est plus absent.');
             return false;
         }
  
@@ -145,7 +145,7 @@ exports.commands = {
         user.forceRename(newName, user.registered);
         user.updateIdentity();
         user.isAway = false;
-        if (user.can('lock', null, room)) this.add('|raw|-- <font color="' + hashColor(user.userid) + '"><strong>' + Tools.escapeHTML(newName) + '</strong></font> ya no está ' + status.toLowerCase() + '.');
+        if (user.can('lock', null, room)) this.add('|raw|-- <font color="' + hashColor(user.userid) + '"><strong>' + Tools.escapeHTML(newName) + '</strong></font> n\'est plus ' + status.toLowerCase() + '.');
     },  
  
     afk: function (target, room, user) {
