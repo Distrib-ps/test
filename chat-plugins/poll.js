@@ -26,7 +26,7 @@ var Poll = (function () {
 
 	Poll.prototype.vote = function (user, option) {
 		if (this.voters.has(user.latestIp)) {
-			return user.sendTo(this.room, "You have already voted for this poll.");
+			return user.sendTo(this.room, "Vous avez déjà voté(e) pour ce sondage");
 		} else {
 			this.voters.add(user.latestIp);
 		}
@@ -103,7 +103,7 @@ var Poll = (function () {
 	Poll.prototype.end = function () {
 		var results = this.generateResults(true);
 
-		this.room.send('|uhtmlchange|poll' + this.room.pollNumber +  '|<div class="infobox">(The poll has ended &ndash; scroll down to see the results)</div>');
+		this.room.send('|uhtmlchange|poll' + this.room.pollNumber +  '|<div class="infobox">(Le sondage est terminé, scroll pour voir les résultats.)</div>');
 		this.room.send('|html|' + results);
 	};
 
@@ -114,13 +114,13 @@ exports.commands = {
 	poll: {
 		create: 'new',
 		new: function (target, room, user) {
-			if (target.length > 1024) return this.errorReply("Poll too long.");
+			if (target.length > 1024) return this.errorReply("Sondage trop long.");
 			var params = target.split(target.includes('|') ? '|' : ',').map(function (param) { return param.trim(); });
 
 			if (!this.can(permission, null, room)) return false;
-			if (room.poll) return this.errorReply("There is already a poll in progress in this room.");
+			if (room.poll) return this.errorReply("Il y a déjà un sondage actif dans cette salle.");
 
-			if (params.length < 3) return this.errorReply("Not enough arguments for /poll new.");
+			if (params.length < 3) return this.errorReply("Passez assez d'arguments pour /poll new");
 			var options = [];
 
 			for (var i = 1; i < params.length; i++) {
@@ -128,23 +128,23 @@ exports.commands = {
 			}
 
 			if (options.length > 8) {
-				return this.errorReply("Too many options for poll (maximum is 8).");
+				return this.errorReply("Trop d'options pour ce sondage (le maximum est 8)");
 			}
 
 			room.poll = new Poll(room, params[0], options);
 			room.poll.display(user, true);
-			return this.privateModCommand("(A poll was started by " + user.name + ".)");
+			return this.privateModCommand("(Un sondage a été lancé par " + user.name + ".)");
 		},
-		newhelp: ["/poll create [question], [option1], [option2], [...] - Creates a poll. Requires: % @ # & ~"],
+		newhelp: ["/poll create [question], [option1], [option2], [...] - Crée un sondage. Demande : % @ # & ~"],
 
 		vote: function (target, room, user) {
-			if (!room.poll) return this.errorReply("There is no poll running in this room.");
-			if (!target) return this.errorReply("Please specify an option.");
+			if (!room.poll) return this.errorReply("Il n'y a pas de sondage dans cette room.");
+			if (!target) return this.errorReply("S'il vous plait spécifier une option.");
 
 			var parsed = parseInt(target);
-			if (isNaN(parsed)) return this.errorReply("To vote, specify the number of the option.");
+			if (isNaN(parsed)) return this.errorReply("Pour voter, indiquez le numéro de l'option.");
 
-			if (!room.poll.options.has(parsed)) return this.sendReply("Option not in poll.");
+			if (!room.poll.options.has(parsed)) return this.sendReply("Cette option n'est pas dans le sondage.");
 
 			room.poll.vote(user, parsed);
 		},
@@ -152,7 +152,7 @@ exports.commands = {
 
 		timer: function (target, room, user) {
 			if (!this.can(permission, null, room)) return false;
-			if (!room.poll) return this.errorReply("There is no poll running in this room.");
+			if (!room.poll) return this.errorReply("Il n'y a pas de sondage dans cette room.");
 
 			var timeout = parseFloat(target);
 			if (isNaN(timeout)) return this.errorReply("No time given.");
@@ -163,40 +163,40 @@ exports.commands = {
 			}), (timeout * 60000));
 			return this.privateModCommand("(The poll timeout was set to " + timeout + " minutes by " + user.name + ".)");
 		},
-		timerhelp: ["/poll timer [minutes] - Sets the poll to automatically end after [minutes] minutes. Requires: % @ # & ~"],
+		timerhelp: ["/poll timer [minutes] - Permet de régler automatiquement le scrutin pour mettre fin après [minutes] minutes. Demande : % @ # & ~"],
 
 		close: 'end',
 		stop: 'end',
 		end: function (target, room, user) {
 			if (!this.can(permission, null, room)) return false;
-			if (!room.poll) return this.errorReply("There is no poll running in this room.");
+			if (!room.poll) return this.errorReply("Il n'y a pas de sondage dans cette room");
 			if (room.poll.timeout) clearTimeout(room.poll.timeout);
 
 			room.poll.end();
 			delete room.poll;
 			return this.privateModCommand("(The poll was ended by " + user.name + ".)");
 		},
-		endhelp: ["/poll end - Ends a poll and displays the results. Requires: % @ # & ~"],
+		endhelp: ["/poll end - Terminer un sondage et afficher les résultats. Demande : % @ # & ~"],
 
 		show: 'display',
 		display: function (target, room, user) {
-			if (!room.poll) return this.errorReply("There is no poll running in this room.");
+			if (!room.poll) return this.errorReply("Il n'y a pas de sondage dans cette room");
 			if (!this.canBroadcast()) return;
 			room.update();
 
 			room.poll.display(user, this.broadcasting);
 		},
-		displayhelp: ["/poll display - Displays the poll"],
+		displayhelp: ["/poll display - Montre le sondage."],
 
 		'': function (target, room, user) {
 			this.parse('/help poll');
 		}
 	},
-	pollhelp: ["/poll allows rooms to run their own polls. These polls are limited to one poll at a time per room.",
+	pollhelp: ["/poll allows rooms to run their own polls. Ces sondages sont limités à un sondage à la fois par chambre.",
 				"Accepts the following commands:",
-				"/poll create [question], [option1], [option2], [...] - Creates a poll. Requires: % @ # & ~",
-				"/poll vote [number] - Votes for option [number].",
-				"/poll timer [minutes] - Sets the poll to automatically end after [minutes]. Requires: % @ # & ~",
-				"/poll display - Displays the poll",
-				"/poll end - Ends a poll and displays the results. Requires: % @ # & ~"]
+				"/poll create [question], [option1], [option2], [...] - Crée une poll. Demande : % @ # & ~",
+				"/poll vote [number] - Vote pour une option [nombre].",
+				"/poll timer [minutes] - Sets the poll to automatically end after [minutes]. Demande : % @ # & ~",
+				"/poll display - Montrer le poll",
+				"/poll end - Terminer un sondage et affiche les résultats. Demande : % @ # & ~"]
 };
