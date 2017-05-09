@@ -1,4 +1,4 @@
-﻿exports.commands = {
+exports.commands = {
 	/*********************************************************
 	 * Clan commands
 	 *********************************************************/
@@ -8,42 +8,42 @@
 	clanshelp: function () {
 		if (!this.canBroadcast()) return false;
 		this.sendReplyBox(
-			"<big><b>Comandos Básicos:</b></big><br /><br />" +
-			"/clanes - Lista los clanes.<br />" +
-			"/clan (clan/miembro) - Muestra la ficha/perfil de un clan.<br />" +
-			"/miembrosclan (clan/miembro) - muestra los miembros con los que cuenta un clan.<br />" +
-			"/clanauth (clan/miembro) - muestra la jerarquía de miembros de un clan.<br />" +
-			"/warlog (clan/miembro) - muestra las 10 últimas wars de un clan.<br />" +
-			"/invitarclan - Invita a un usuario a unirse al clan. Requiere ser Oficial del clan.<br />" +
-			"/expulsarclan (miembro) - Expulsa a un miembro del clan. Requiere ser sub-lider del clan.<br />" +
-			"/aceptarclan (clan) - Acepta una invitación al clan.<br />" +
-			"/invitacionesclan (clan/miembro) - Lista a los usuarios invitados a un clan.<br />" +
-			"/borrarinvitaciones - Borra las invitaciones pendientes al Clan. Requiere ser líder del clan.<br />" +
-			"/abandonarclan - Abandona el clan.<br />" +
+			"<big><b>Commande basique</b></big><br /><br />" +
+			"/clanes - Liste des clans.<br />" +
+			"/clan (clan/miembro) - Affiche la forme / le profil d'un clan.<br />" +
+			"/miembrosclan (clan/miembro) - Il montre dans quel clan est un membre.<br />" +
+			"/clanauth (clan/miembro) -Il montre la hiérarchie des membres du clan..<br />" +
+			"/warlog (clan/miembro) -Il montre les 10 dernières guerres de clan.<br />" +
+			"/invitarclan - Inviter un utilisateur à rejoindre le clan. Elle exige de la direction Guilde.<br />" +
+			"/expulsarclan (miembro) - Expulse un membre du clan. Elle exige chef de file du sous-clan.<br />" +
+			"/aceptarclan (clan) - Accepte une invitation au clan.<br />" +
+			"/invitacionesclan (clan/miembro) - Liste invités à un des membres du clan.<br />" +
+            "/borrarinvitaciones - Supprime les invitations en attente du clan. Il faut chef de clan.<br />" +
+			"/abandonarclan - Quitter le clan.<br />" +
 			"<br />" +
-			"<big><b>Comandos de Clan-Auth:</b></big><br /><br />" +
-			"/liderclan (miembro) - Nombra a un miembro líder del clan. Requiere ~<br />" +
-			"/subliderclan (miembro) - Nombra a un miembro sub-líder del clan. Requiere ser Líder del clan.<br />" +
-			"/oficialclan (miembro) - Nombra a un miembro oficial del clan. Requiere ser sub-lider del clan.<br />" +
-			"/demoteclan (miembro) - Borra a un miembro del staff del clan. Requiere ser Líder del clan y ~ para demotear a un Líder.<br />" +
-			"/lemaclan (lema) - Establece el Lema del clan. Requiere ser líder del clan.<br />" +
-			"/logoclan (logo) - Establece el Logotipo del clan. Requiere ser líder del clan.<br />" +
-			"/closeclanroom - Bloquea una sala de clan a todos los que no sean miembros de dicho clan, salvo administradores.<br />" +
-			"/openclanroom - Elimina el bloqueo del comando /closeclanroom.<br />" +
-			"/llamarmiembros o /fjg - Llama a los miembros de un clan a su sala.<br />" +
-			"/rk o /roomkick - Expulsa a un usuario de una sala. Requiere @ o superior.<br />" +
+			"<big><b>Commande de gestion du clan.</b></big><br /><br />" +
+			"/liderclan (miembro) - Nomination d'un membre du chef de clan. elle exige ~<br />" +
+			"/subliderclan (miembro) - La nomination d'un sous-chef du membre du clan. Chef du clan a besoin.<br />" +
+			"/oficialclan (miembro) - Officiel nomination d'un membre du clan. Elle exige chef de file du sous-clan<br />" +
+			"/demoteclan (miembro) - Supprime un membre du personnel du clan. Il faut Chef de Clan et ~ à rétrogradé un chef de file.<br />" +
+			"/lemaclan (lema) - tg fdp.<br />" +
+			"/logoclan (logo) - Définit le logo du clan, il faut le chef du clan.<br />" +
+			"/closeclanroom -Bloque une salle de guilde à tous ceux qui ne sont pas membres du clan, à l'exception des administrateurs.<br />" +
+			"/openclanroom - Supprime la commande bloc / fermer salle blanche.<br />" +
+			"/llamarmiembros o /fjg - <br />" +
+			"/rk o /roomkick - Éjecte un utilisateur d'une pièce. Nécessite @ ou plus.<br />" +
 			"<br />" +
-			"<big><b>Comandos de Administración:</b></big><br /><br />" +
-			"/createclan &lt;name> - Crea un clan.<br />" +
-			"/deleteclan &lt;name> - Elimina un clan.<br />" +
-			"/addclanmember &lt;clan>, &lt;user> - Fuerza a un usuario a unirse a un clan.<br />" +
-			"/removeclanmember &lt;clan>, &lt;user> - Expulsa a un usuario del clan.<br />" +
-			"/setlemaclan &lt;clan>,&lt;lema> - Establece un lema para un clan.<br />" +
-			"/setlogoclan &lt;clan>,&lt;logo> - Establece un logotipo para un clan.<br />" +
-			"/setsalaclan &lt;clan>,&lt;sala> - Establece una sala para un clan.<br />" +
-			"/setgxeclan &lt;clan>,&lt;wins>,&lt;losses>,&lt;draws> - Establece la puntuación de un clan.<br />" +
-			"/serankclan &lt;clan>,&lt;puntos> - Establece la puntuación de un clan.<br />" +
-			"/settitleclan &lt;clan>&lt;puntos> - Estable un título para el clan.<br />"
+			"<big><b>Commande d'administration:</b></big><br /><br />" +
+			"/createclan &lt;name> - Crée un clan.<br />" +
+			"/deleteclan &lt;name> - Supprimer un clan.<br />" +
+			"/addclanmember &lt;clan>, &lt;user> - Force un utilisateur à se joindre à un clan.<br />" +
+			"/removeclanmember &lt;clan>, &lt;user> - Expulser quelqu'un d'un clan.<br />" +
+			"/setlemaclan &lt;clan>,&lt;lema> - Établire un thème pour un clan.<br />" +
+			"/setlogoclan &lt;clan>,&lt;logo> - Elle établit un logo pour un clan.<br />" +
+			"/setsalaclan &lt;clan>,&lt;sala> - Définit une chambre pour un clan.<br />" +
+			"/setgxeclan &lt;clan>,&lt;wins>,&lt;losses>,&lt;draws> - Réglez le score d'un clan.<br />" +
+			"/serankclan &lt;clan>,&lt;puntos> - Réglez le score d'un clan.<br />" +
+			"/settitleclan &lt;clan>&lt;puntos> - Mettre un  titre du clan.<br />"
 		);
 	},
 
