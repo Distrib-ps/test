@@ -11,27 +11,27 @@ const MIN_PRIZE = 3; //precio al nominar
 	-> Para Instalarse debe colocarse este archivo en la carpeta Chat-plugins de un servidor de PS, no es necesario nada más.
 	
 	Comandos:
-		/addteam [nombre] - agrega un equipo, solo para administradores
-		/deleteteam [nombre] - elimina un equipo, solo para administradores
-		/setteammoney [equipo], [dinero] - establece los ks que tiene un equipo. Se restan autoáticamente al comprar un jugador, pero debe usarse para establecer los valores iniciales.
-		/setteamauth [equipo], [capitan], [cocapitan] - Establece los usuarios con derecho a nominar en un equipo.
-		/setmaxplayers [num] - establece el maximo número de jugadores por equipo
-		/addplayer [jugador] - agrega un usuario a la lista de elegibles
-		/deletelayer [jugador] - elimina un jugador elegible
-		/forceaddplayer [equipo], [jugador] - fuerza la entrada de un jugador en un equipo, por derechos de retención
-		/forcedeleteplayer [equipo], [jugador] - por si alguien se equivoca, quita un jugador de un equipo y lo pone en la lista de elegibles.
-		/nominationrights [equipo] - Por defecto, los derechos de nominación pasan al siguiente equipo. Esto se puede usar para confusiones o para establecer manualmente quien nomina primero.
-		/organizador [usuario/off] - Establece un organizador para decidir manualmente el orden.
+		/addteam [nombre] - Ajouter une équipe.
+		/deleteteam [nombre] - Supprimer une équipe.
+		/setteammoney [equipo], [dinero] - Il fixe km d'une équipe. Ils sont soustraites automatiquement lors de l'achat d'un lecteur, mais doivent être utilisés pour établir des valeurs de référence.
+		/setteamauth [equipo], [capitan], [cocapitan] - Établit le droit de nommer les utilisateurs sur un ordinateur.
+		/setmaxplayers [num] - Définit le nombre maximum de joueurs par équipe.
+		/addplayer [jugador] - Ajouter un joueur.
+		/deletelayer [jugador] - Supprimer un joueur.
+		/forceaddplayer [equipo], [jugador] - Forcer à ajouter un joueur.
+		/forcedeleteplayer [equipo], [jugador] - Forcer à supprimer un joueur.
+		/nominationrights [equipo] - Par défaut, les droits de nomination passent à l'équipe suivante. Cela peut être utilisé pour définir manuellement ou qui nomme confusion en premier.
+		/organizador [usuario/off] - L'établissement d'un organisateur de décider manuellement l'ordre.
 		
-		/hplteam [nombre] - muestra el estado de un equipo.
-		/hplplayers - muestra la lista de jugadores elegibles.
+		/hplteam [nombre] - Il affiche l'état d'une équipe.
+		/hplplayers - Affiche la liste des joueurs éligibles.
 		
-		/nominar [jugador] - Nomina un jugador si tienes derecho a hacerlo, cuesta 3k
-		/pujar - puja por un jugador +0.5K
-		/pujar [dinero] - puja por un jugador un número de Ks superior. NOTA: Dinero es los Ks que aumentas, no los que quieres pujar
+		/nominar [jugador] - DESIGNE un joueur si vous avez le droit de le faire, il en coûte 3k.
+		/pujar - Une offre pour un joueur + 0,5K.
+		/pujar [dinero] - Une offre pour un joueur un plus grand nombre de Ks. NOTE: L'argent est le Ks que vous soulevez, vous ne voulez pas faire une offre.
 		
-		-Tras un tiempo establecido en la constante NOMINATION_TIMEOUT desde la última puja, el jugador se adjudica a un team y se le restan los Ks correspondientes.
-		-No se puede usar /pujar si ya tenías la mayor puja.
+		-Après un temps défini dans la NOMINATION_TIMEOUT constante depuis la dernière offre, le joueur est attribué à une équipe et vous soustrayez le Ks correspondant.
+« Vous ne pouvez pas utiliser / offre si vous avez déjà la meilleure offre.
 */
 
 var fs = require('fs');
