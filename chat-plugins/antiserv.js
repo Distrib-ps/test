@@ -13,14 +13,14 @@ Config.chatfilter = function (message, user, room, connection, targetUser) {
 		user.advWarns++;
 		if (user.advWarns > 1) {
 			Punishments.lock(user, Date.now() + 7 * 24 * 60 * 60 * 1000, null, "Advertising");
-			fs.appendFile('logs/modlog/modlog_staff.txt', '[' + (new Date().toJSON()) + '] (staff) ' + user.name + ' was locked from talking by the Server. (Advertising) (' + connection.ip + ')\n');
-			connection.sendTo(room, '|raw|<strong class="message-throttle-notice">You have been locked for attempting to advertise.</strong>');
-			Monitor.log("[AdMonitor] " + user.name + " has been locked for attempting to advertise" + (room ? ". **Room:** " + room.id : " in a private message to " + targetUser.name + ".") + " **Message:** " + message);
+			fs.appendFile('logs/modlog/modlog_staff.txt', '[' + (new Date().toJSON()) + '] (staff) ' + user.name + ' a été verrouillé de parler par le serveur. (Advertising) (' + connection.ip + ')\n');
+			connection.sendTo(room, '|raw|<strong class="message-throttle-notice">Vous avez été bloqué pour avoir tenté de la publicité.</strong>');
+			Monitor.log("[AdMonitor] " + user.name + " a été bloqué pour avoir tenté de la publicité" + (room ? ". **Room:** " + room.id : " en pm" + targetUser.name + ".") + " **Message:** " + message);
 			return false;
-		}
-		Monitor.log("[AdMonitor] " + user.name + " has attempted to advertise" + (room ? ". **Room:** " + room.id : " in a private message to " + targetUser.name + ".") + " **Message:** " + message);
-		connection.sendTo(room, '|raw|<strong class="message-throttle-notice">Advertising detected, your message has not been sent and Exiled global authorities have been notified.' + '<br />Further attempts to advertise in a chat OR PMs will result in being locked.</strong>');
-		connection.user.popup("|modal|Advertising detected, your message has not been sent and Exiled global authorities have been notified.\n" + "Further attempts to advertise in a chat OR in PMs will result in being locked.");
+		}	
+		Monitor.log("[AdMonitor] " + user.name + " A tenté de faire de la publicité" + (room ? ". **Room:** " + room.id : " en pm " + targetUser.name + ".") + " **Message:** " + message);
+		connection.sendTo(room, '|raw|<strong class="message-throttle-notice">Publicité détectée, votre message n a pas été envoyé et les autorités mondiales exilées ont été notifiées.' + '<br />D autres tentatives de publicité dans un chat ou des PM se traduiront par un verrouillage.</strong>');
+		connection.user.popup("|modal|Publicité détectée, votre message n'a pas été envoyé et les autorités mondiales exilées ont été notifiées.\n" + "D autres tentatives de publicité dans un chat ou des PM se traduiront par un verrouillage");
 		return false;
 	}
 	return message;
