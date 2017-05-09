@@ -118,25 +118,25 @@ var BJView = {
 	},
 
 	end: function (winner) {
-		var output = "<b>The blackjack game has ended. The winner is <font color='#24678d'>";
+		var output = "<b>La partie de blackjack est terminée, le gagnant est <font color='#24678d'>";
 		output += winner.name + "</font> with " + winner.hand.join(", ") + " in hand!</b>";
 		this.addRaw(output);
 	},
 
 	hit: function (player, card, hand) {
-		this.addRaw("<b>" + player + " got " + card + ". Now " + player + " has " + hand + " in hand.</b>");
+		this.addRaw("<b>" + player + " a " + card + ". maintenant " + player + " has " + hand + " en main.</b>");
 	},
 
 	join: function (player) {
-		this.addRaw("<b>" + player + " joined the blackjack game.</b>");
+		this.addRaw("<b>" + player + " a rejoint la partie de blackjack.</b>");
 	},
 
 	noWinner: function () {
-		this.addRaw("<b>The blackjack game has ended. There is no winner.");
+		this.addRaw("<b>La partie de blacjack est terminé, il n'y a pas de gagnant.");
 	},
 
 	start: function (players, getPlayer) {
-		var output = "<div class='infobox'><center><b>The blackjack game has started!</b><br />";
+		var output = "<div class='infobox'><center><b>Une partie de blackjack a été lancée !</b><br />";
 		output += "<b>There are " + players.length + " players.</b><br />";
 		players.forEach(function (player) {
 			output += "<b><font color='" + color(player) + "'>" + player + ": </font></b> " + getPlayer[player].hand.join(", ") + "<br />";
@@ -318,16 +318,16 @@ Blackjack.prototype.hasPlayerWinOrBust = function (player) {
 exports.commands = {
         bjhelp: 'blackjackhelp',
         blackjackhelp: function(target, room, user) {
-                       this.sendReplyBox("<center><b><u>Blackjack Commands</u></b><br /></center><b>/bj [new/create] [bucks]</b> - create game of blackjack for certian amount of bucks.<br /><b>/bj [end]</b> - end game of blackjack.<br /><b>/bj [start]</b> - start game of blackjack.<br /><b>/bjhelp</b> - shows blackjack commands.<br />");
+                       this.sendReplyBox("<center><b><u>Commande du Blackjack</u></b><br /></center><b>/bj [new/create] [bucks]</b> - Créer un jeu de blackjack pour certains montants.<br /><b>/bj [end]</b> - Fin de la partie de blackjack.<br /><b>/bj [start]</b> - Lancer une game de blackjack.<br /><b>/bjhelp</b> - Montrer les commandes du blackjack.<br />");
                },
 	bj: 'blackjack',
 	blackjack: {
 		new: 'create',
 		create: function (target, room, user) {
 			if (!this.can('broadcast', null, room)) return false;
-		        if (room.id !== 'casino') return this.sendReply('|html|You can only start a game of Blackjack in the <button name = "send" value = "/join casino">Casino</button>');
+		        if (room.id !== 'casino') return this.sendReply('|html|Vous pouvez seulement crée une partie de blackjack dans <button name = "send" value = "/join casino">Casino</button>');
 	
-			if (room.bj) return this.sendReply("A blackjack game has already been created in this room.");
+			if (room.bj) return this.sendReply("Il y a déjà une partie de blackjack dans cette salle.");
 
 			var amount = isMoney(target);
 			if (typeof amount === 'string') return this.sendReply(amount);
@@ -337,17 +337,17 @@ exports.commands = {
 
 		start: function (target, room, user) {
 			if (!this.can('broadcast', null, room)) return false;
-			if (!room.bj) return this.sendReply("A blackjack game has not been created.");
-			if (room.bj.started) return this.sendReply("A blackjack game has already started in this room.");
-			if (Object.keys(room.bj.players).length < 2) return this.sendReply("|raw|<b>There aren't enough users.</b>");
+			if (!room.bj) return this.sendReply("Une partie de blackjack n'a pas été crée.");
+			if (room.bj.started) return this.sendReply("Il y a déjà une partie de blackjack dans cette room");
+			if (Object.keys(room.bj.players).length < 2) return this.sendReply("|raw|<b>Il n'y a pas assez d'utilisateurs.</b>");
 
 			room.bj.startGame();
 		},
 
 		join: function (target, room, user) {
-			if (!room.bj) return this.sendReply("A blackjack game has not been created.");
-			if (room.bj.started) return this.sendReply("A blackjack game has already started in this room.");
-			if (room.bj.isPlayerInGame(user.userid)) return this.sendReply("You are already in this blackjack game.");
+			if (!room.bj) return this.sendReply("Une partie de blackjack n'a pas été crée.");
+			if (room.bj.started) return this.sendReply("Il y a déjà une partie de blackjack dans cette room");
+			if (room.bj.isPlayerInGame(user.userid)) return this.sendReply("Vous êtes déjà dans une partie de blackjack.");
 
 			// check if they have enough money for pot
 
@@ -355,37 +355,37 @@ exports.commands = {
 		},
 
 		hit: function (target, room, user) {
-			if (!room.bj) return this.sendReply("A blackjack game has not been created.");
-			if (!room.bj.started) return this.sendReply("A blackjack game has not started.");
-			if (!room.bj.isPlayerInGame(user.userid)) return this.sendReply("You are not in this blackjack game.");
-			if (!room.bj.isPlayerTurn(user.userid)) return this.sendReply("It is not your turn.");
+			if (!room.bj) return this.sendReply("Une partie de blackjack n'a pas été crée");
+			if (!room.bj.started) return this.sendReply("Une partie de blackjack n'a pas été lancée");
+			if (!room.bj.isPlayerInGame(user.userid)) return this.sendReply("Vous n'êtes pas dans une partie de blackjack");
+			if (!room.bj.isPlayerTurn(user.userid)) return this.sendReply("Ce n'est pas votre tour !");
 
 			room.bj.hit(user.userid);
 			room.bj.hasPlayerWinOrBust(user.userid);
 		},
 
 		hand: function (target, room, user) {
-			if (!room.bj) return this.sendReply("A blackjack game has not been created.");
-			if (!room.bj.started) return this.sendReply("A blackjack game has not started.");
-			if (!room.bj.isPlayerInGame(user.userid)) return this.sendReply("You are not in this blackjack game.");
-			if (!room.bj.isPlayerInGame(user.userid)) return this.sendReply("You are not in this blackjack game.");
+			if (!room.bj) return this.sendReply("Une partie de blackjack n'a pas été crée");
+			if (!room.bj.started) return this.sendReply("Une partie de blackjack n'a pas été lancée");
+			if (!room.bj.isPlayerInGame(user.userid)) return this.sendReply("Vous n'êtes pas dans cette partie de blackjack");
+			if (!room.bj.isPlayerInGame(user.userid)) return this.sendReply("Vous n'êtes pas dans cette partie de blackjack");
 
 			this.sendReply("Your hand: " + room.bj.players[user.userid].hand.join(', '));
 		},
 
 		stand: function (target, room, user) {
-			if (!room.bj) return this.sendReply("A blackjack game has not been created.");
-			if (!room.bj.started) return this.sendReply("A blackjack game has not started.");
-			if (!room.bj.isPlayerInGame(user.userid)) return this.sendReply("You are not in this blackjack game.");
-			if (!room.bj.isPlayerTurn(user.userid)) return this.sendReply("It is not your turn.");
+			if (!room.bj) return this.sendReply("Une partie de blackjakc n'a pas été crée");
+			if (!room.bj.started) return this.sendReply("Une partie de blackjack n'a pas été lancée");
+			if (!room.bj.isPlayerInGame(user.userid)) return this.sendReply("Vous n'êtes pas dans cette partie de blackjack");
+			if (!room.bj.isPlayerTurn(user.userid)) return this.sendReply("Ce n'est pas votre tour !");
 
 			room.bj.nextTurn();
 		},
 
 		deck: function (target, room, user) {
 			if (!this.can('declare', null, room)) return false;
-			if (!room.bj) return this.sendReply("A blackjack game has not been created.");
-			if (room.bj.isPlayerInGame(user.userid)) return this.sendReply("You can't not view the deck if you are in the game.");
+			if (!room.bj) return this.sendReply("Une partie de blackjack n'a pas été crée");
+			if (room.bj.isPlayerInGame(user.userid)) return this.sendReply("Vous ne pouvez pas regarder le deck si vous êtes dans la partie !");
 
 			this.sendReply("Current blackjack game deck: " + room.bj.deck.toString());
 		},
@@ -393,10 +393,10 @@ exports.commands = {
 		stop: 'end',
 		end: function (target, room, user) {
 			if (!user.can('broadcast', null, room)) return false;
-			if (!room.bj) return this.sendReply("A blackjack game has not been created.");
+			if (!room.bj) return this.sendReply("Une partie de blackjack n'a pas été crée");
 
 			room.bj = null;
-			room.addRaw("<b>" + user.name + " ended the dice game.</b>");
+			room.addRaw("<b>" + user.name + " à mis fin à la partie.</b>");
 		}
 	}
 };
