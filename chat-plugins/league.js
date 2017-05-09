@@ -8,26 +8,26 @@ exports.commands = {
 	leaguehelp: function (target, room, user) {
 		return this.sendReplyBox(
 			"<center><h3><b><u>Lista de Comandos para las Ligas</u></b></h3></center>" +
-			"<br /><b>Comandos Usuales</b><br />" +
-			"/medallas [user] - Muestra las medallas con las que cuenta un usuario.<br />" +
-			"/liga [name] - Comando para mostrar la informacion más general de una liga (miembros y sala).<br />" +
-			"/darmedalla [user] - Entrega una medalla como miembro de una liga.<br />"  +
-			"/quitarmedalla [user] - Retira una medalla como miembro de una liga.<br />" +
-			"<br /><b>Comandos Administrativos</b><br />" +
-			"/medallist - Muestra la lista de Ids de la base de datos de medallas.<br />" +
-			"/medaldata [id] - Muestra una de las medallas por su ID.<br />" +
-			"/addmedal [id], [name], [width], [height], [image] - Agrega una medalla al server.<br />" +
-			"/deletemedal [id] - Elimina una medalla.<br />" +
-			"/editmedal [id], [name/image/width/height], [data] - Modifica las propiedades de una medalla.<br />" +
-			"/leguelist - Muestra la lista de Ids de la base de datos de ligas.<br />"  +
+			"<br /><b>Commande utilisateur</b><br />" +
+			"/medallas [user] - Il montre les médailles d'un utilisateur.<br />" +
+			"/liga [name] - Commande pour afficher les informations générales d'une ligue (membres et salon).<br />" +
+			"/darmedalla [user] - Livraison une médaille en tant que membre d'une ligue. <br />"  +
+			"/quitarmedalla [user] - Suppression d'une médaille en tant que membre d'une ligue.<br />" +
+			"<br /><b>Les commandes d'administration</b><br />" +
+			"/medallist - Affiche la liste des Ids de la médaille de base de données.<br />" +
+			"/medaldata [id] - Elle montre une des médailles pour leur carte d'identité.<br />" +
+			"/addmedal [id], [name], [width], [height], [image] - Ajouter une médaille.<br />" +
+			"/deletemedal [id] - Enlevez une médaille. <br />" +
+			"/editmedal [id], [name/image/width/height], [data] - Modifie les propriétés d'une médaille.<br />" +
+			"/leguelist - Liste Ids montre les ligues de base de données.<br />"  +
 			"/addleague [id], [name], [room] - Comando para registrar una liga.<br />"  +
-			"/deleteleague [id] - Comando para eliminar una liga.<br />"  +
-			"/editleague [id], [name/room], [data] - Edita la informacion de la liga.<br />"  +
-			"/setgymleader [id-league], [user], [id-medal] - Establece un usuario como miembro de la liga.<br />"  +
-			"/setgymleader [id-league], [user], [id-medal] - Establece un usuario como elite de la liga.<br />"  +
-			"/removegymleader [id-league], [id-medal] - Elimina un puesto de una liga.<br />"  +
-			"/darmedalla [user], (id) - Entrega una medalla.<br />"  +
-			"/quitarmedalla [user], (id) - Retira una medalla.<br />"
+			"/deleteleague [id] - Commande pour enregistrer une ligue.<br />"  +
+			"/editleague [id], [name/room], [data] - Modifier cette ligue.<br />"  +
+			"/setgymleader [id-league], [user], [id-medal] - Établit un utilisateur en tant que membre de la ligue.<br />"  +
+			"/setgymleader [id-league], [user], [id-medal] - Établit un utilisateur en tant que membre de la ligue. <br />"  +
+			"/removegymleader [id-league], [id-medal] - Supprimer un poste.<br />"  +
+			"/darmedalla [user], (id) - Offre une médaille.<br />"  +
+			"/quitarmedalla [user], (id) - Retirez une médaille.<br />"
 		);
 	},
 	
