@@ -17,7 +17,7 @@ exports.commands = {
                     "- " + hashColor('asumaru', true) + " (Admin)<br />" +
                      "- " + hashColor('newxluffy', true) + " (Admin)<br />" +
                     "- " + hashColor('herminchan', true) + " (Admin)<br />" +
-                    "- " + hashColor('Neko♣chechir', true) + " (Leader)<br />" +
+                    "- " + hashColor('Corbox chechir', true) + " (Leader)<br />" +
 					"<br />" +
 					"<u>Development:</u><br />" +
 					"- " + hashColor('Distrib', true) + " (Développeur, Traducteur)<br />" +
