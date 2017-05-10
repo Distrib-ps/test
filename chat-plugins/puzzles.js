@@ -78,10 +78,10 @@ class TilePuzzle {
 		this.timer = setTimeout(this.end.bind(this, 'inactive'), INACTIVE_KICK_TIME);
 	}
 	update(message) {
-		let help = '<br><button name = "send" value = "/tilepuzzle help"><small>How to Play</small></button> <button name = "send" value = "/tilepuzzle end"><small>Leave Game</small></button>';
+		let help = '<br><button name = "send" value = "/tilepuzzle help"><small>Comment jouer</small></button> <button name = "send" value = "/tilepuzzle end"><small>Quitter jeu</small></button>';
 		this.user.popup('|html|<center><div style = "width: 220px;"><b>Tile Puzzle!<b><br>' +
 			this.display.join('') + '</div>' + (message ? '<br>' + message : '') + help + '</center>' +
-			'<button name = "send" value = "/tilepuzzle rotate" style = "float: right" ' + (isNaN(this.selection) ? 'disabled' : '') + '>Rotate Tile</button>'
+			'<button name = "send" value = "/tilepuzzle rotate" style = "float: right" ' + (isNaN(this.selection) ? 'disabled' : '') + '>Faire pivoter le carreau</button>'
 		);
 	}
 	resetTimer() {
@@ -121,7 +121,7 @@ class TilePuzzle {
 		else this.end(true);
 	}
 	rotateTile() {
-		if (isNaN(this.selection)) return this.update('You haven\'t selected a tile to rotate yet.');
+		if (isNaN(this.selection)) return this.update('Vous n\'avez pas sélectionné une tuile pour tourner encore.');
 		let selected = this.tiles[this.selection];
 		selected.angle += 90;
 		if (selected.angle >= 360) selected.angle = 0;
@@ -130,9 +130,9 @@ class TilePuzzle {
 		this.update();
 	}
 	end(status) {
-		if (status === 'inactive') this.user.popup('The game of Tile Puzzle has been ended due to inactivity.');
-		else if (status) this.update('You finished the puzzle in ' + getTime(this.startTime) + '! Good job!');
-		else this.user.popup('You have decided to leave the game midway.');
+		if (status === 'inactive') this.user.popup('Le jeu de Tile Puzzle a été terminé en raison de l\'inactivité.');
+		else if (status) this.update('Vous avez terminé le puzzle dans ' + getTime(this.startTime) + '! Bon travail!');
+		else this.user.popup('Vous avez décidé de quitter le jeu à mi-chemin.');
 		clearTimeout(this.timer);
 		global.TilePuzzles.delete(this.user);
 	}
@@ -143,28 +143,28 @@ let cmds = {
 	start: function (target, room, user) {
 		if (TilePuzzles.has(user)) return TilePuzzles.get(user).update();
 		TilePuzzles.set(user, new TilePuzzle(user));
-		TilePuzzles.get(user).update('Tip: If you accidentally close out this popup box, use <b>/tilepuzzle</b> to resume the game.');
+		TilePuzzles.get(user).update('Astuce: si vous fermez accidentellement cette boîte contextuelle, utilisez <b>/tilepuzzle</b> Pour reprendre le jeu.');
 	},
 
 	help: function (target, room, user) {
-		let help = 'Click on a tile to select it. After selecting a tile, clicking on another tile will exchange that tile with the selected tile. ' +
-			'Selected tiles will have a red border. You can deselect the selected tile by clicking on it again. Rearrange the tiles to form the correct image!';
+		let help = 'Cliquez sur un carreau pour le sélectionner. Après avoir sélectionné un carreau, cliquer sur un autre carreau échangera ce carreau avec le carreau sélectionnée. ' +
+			'Les carreaux sélectionnés auront une bordure rouge. Vous pouvez désélectionner la mosaïque sélectionnée en cliquant dessus à nouveau. Réorganisez les carreaux pour former l\'image correcte!';
 		if (TilePuzzles.has(user)) return TilePuzzles.get(user).update(help);
 		if (!this.runBroadcast()) return;
-		this.sendReplyBox('<center><b>Tile Puzzle</b><br><br>' + help + '<br><button name = "send" value = "/tilepuzzle"><b>Play Now!</b></button>');
+		this.sendReplyBox('<center><b>Tile Puzzle</b><br><br>' + help + '<br><button name = "send" value = "/tilepuzzle"><b>Joue maintenant!</b></button>');
 	},
 
 	select: function (target, room, user) {
 		let Game = TilePuzzles.get(user);
-		if (!Game) return this.errorReply("You aren't playing a game of Tile Puzzle right now.");
-		if (!Number(target) || target.length > 2 || Number(target) < 1 || Number(target) > 16) return Game.update("Invalid tile number. You may only choose a tile number between 1 to 16.");
+		if (!Game) return this.errorReply("Vous ne jouez pas actuellement à un jeu de Tile Puzzle.");
+		if (!Number(target) || target.length > 2 || Number(target) < 1 || Number(target) > 16) return Game.update("Numéro de calque invalide. Vous ne pouvez choisir qu'un numéro de carreau entre 1 à 16.");
 
 		Game.selectTile(Number(target) - 1);
 	},
 
 	rotate: function (target, room, user) {
 		let Game = TilePuzzles.get(user);
-		if (!Game) return this.errorReply("You aren't playing a game of Tile Puzzle right now.");
+		if (!Game) return this.errorReply("Vous ne jouez pas actuellement à un jeu de Tile Puzzle.");
 
 		Game.rotateTile(Number(target) - 1);
 	},
@@ -172,7 +172,7 @@ let cmds = {
 	forfeit: 'end',
 	end: function (target, room, user) {
 		let Game = TilePuzzles.get(user);
-		if (!Game) return this.errorReply("You aren't playing a game of Tile Puzzle right now.");
+		if (!Game) return this.errorReply("Vous ne jouez pas actuellement à un jeu de Tile Puzzle.");
 
 		Game.end();
 	},
