@@ -11,7 +11,7 @@ function writeIconCSS() {
 
 exports.commands = {
     seticon: function (target, room, user) {
-        if (!this.can('ban')) return this.errorReply("Accedo denegado.");
+        if (!this.can('ban')) return this.errorReply("Accès refusé.");
 
         var args = target.split(',');if (args.length < 3) return this.parse('/help seticon');
         var username = toId(args.shift());
@@ -22,8 +22,8 @@ exports.commands = {
         });
         selectors += '{' + '' + image +  '}';
 
-        this.privateModCommand("(" + user.name + " le ha establecido un icono a " + username + ")");
+        this.privateModCommand("(" + user.name + " vous a mis une icône " + username + ")");
         writeIconCSS();
     },
-    seticonhelp: ["/seticon [usuario], [imagen], [room 1], [room 2], etc. - Recuerda debe ser una imagen 32x32."]
+    seticonhelp: ["/seticon [user, [img], [room 1], [room 2], etc. - Rappelez-vous que vous devez fournir une image de 32x32."]
 };
