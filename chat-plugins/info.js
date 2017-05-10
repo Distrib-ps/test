@@ -205,7 +205,7 @@ var commands = exports.commands = {
 		}
 		return this.parse('/msg ' + this.targetUsername + ', /invite ' + targetRoom.id);
 	},
-	invitehelp: ["/invite [username], [roomname] - Invites the player [username] to join the room [roomname]."],
+	invitehelp: ["/invite [username], [roomname] - Invites un user dans une room"],
 
 	/*********************************************************
 	 * Data Search Tools
@@ -2220,6 +2220,18 @@ var commands = exports.commands = {
 			"</div>"
 		);
 	},
+		bu: function (target, room, user) {
+		if (room.id === 'lobby' || room.battle) return this.sendReply("This command is too spammy for lobby/battles.");
+		if (!this.canBroadcast()) return;
+		this.sendReplyBox(
+'Bienvenue dans la room BU, un tier collaboratif, regroupant les plus grandes menaces de l univers Pokémon comme Lamantine ou Dedenne. Si vous êtes nouveau, vous pouvez consulter la liste des Pokémon du tier http://pokestrat.com/forum/discussions-strategiques/un-tout-nouveau-tier-debarque-sur-pokestrat-bu- ou voir le Viability Rankings de notre tier http://pokestrat.com/forum/discussions-strategiques/-bu-viability-rankings!'
+		);
+	},
+	kik: function (target, room, user) {
+		if (!this.runBroadcast()) return;
+		this.sendReplyBox("<a href=\"https://www.smogon.com/forums/forums/pok%C3%A9mon-showdown.209\">Pok&eacute;mon Showdown Forums</a>");
+	},
+
 
 	restarthelp: function (target, room, user) {
 		if (room.id === 'lobby' && !this.can('lockdown')) return false;
@@ -2508,6 +2520,23 @@ var commands = exports.commands = {
 		if (!this.canBroadcast()) return;
 		this.sendReplyBox('You will be prompted to register upon winning a rated battle. Alternatively, there is a register button in the <button name="openOptions"><i class="fa fa-cog"></i> Options</button> menu in the upper right.');
 	},
+		addhtmlbox: function (target, room, user, connection, cmd, message) {
+		if (!target) return this.parse('/help htmlbox');
+		if (!this.canTalk()) return;
+		target = this.canHTML(target);
+		if (!target) return;
+		if (!this.can('addhtml', null, room)) return;
+
+		if (!user.can('addhtml')) {
+			target += '<div style="float:right;color:#888;font-size:8pt">[' + Chat.escapeHTML(user.name) + ']</div><div style="clear:both"></div>';
+		}
+
+		this.addBox(target);
+	},
+	htmlboxhelp: [
+		"/htmlbox [message] - Displays a message, parsing HTML code contained.",
+		"!htmlbox [message] - Shows everyone a message, parsing HTML code contained. Requires: ~ & #",
+	],
 
 	/*********************************************************
 	 * Miscellaneous commands
@@ -2686,6 +2715,7 @@ var commands = exports.commands = {
 		this.sendReplyBox(target);
 	},
 	htmlboxhelp: ["/htmlbox [message] - Displays a message, parsing HTML code contained. Requires: ~ # with global authority"]
+
 };
 
 process.nextTick(function () {
