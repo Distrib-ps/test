@@ -93,37 +93,81 @@ exports.commands = {
         if (room.id === 'lobby' || room.battle) return this.sendReply("This command is too spammy for lobby/battles.");
         if (!this.canBroadcast()) return;
         this.sendReplyBox(
-            "Room drivers (%) can use:<br />" +
-            "- /warn OR /k <em>username</em>: warn a user and show the Pokemon Showdown rules<br />" +
-            "- /mute OR /m <em>username</em>: 7 minute mute<br />" +
-            "- /hourmute OR /hm <em>username</em>: 60 minute mute<br />" +
+            "Room drivers (%) peut utiliser:<br />" +
+            "- /warn OR /k <em>username</em>: Avertir un utilisateur et montrer les règles Pokemon Showdown<br />" +
+            "- /mute OR /m <em>username</em>: mute 7 minutes<br />" +
+            "- /hourmute OR /hm <em>username</em>: mute 60 minute<br />" +
             "- /unmute <em>username</em>: unmute<br />" +
-            "- /announce OR /wall <em>message</em>: make an announcement<br />" +
-            "- /modlog <em>username</em>: search the moderator log of the room<br />" +
-            "- /modnote <em>note</em>: adds a moderator note that can be read through modlog<br />" +
+            "- /announce OR /wall <em>message</em>: faire une annonce<br />" +
+            "- /modlog <em>username</em>: Recherchez le un user dans le modlog <br />" +
+            "- /modnote <em>note</em>: Ajoute une note de modérateur qui peut être lue via modlog<br />" +
             "<br />" +
-            "Room moderators (@) can also use:<br />" +
-            "- /roomban OR /rb <em>username</em>: bans user from the room<br />" +
-            "- /roomunban <em>username</em>: unbans user from the room<br />" +
-            "- /roomvoice <em>username</em>: appoint a room voice<br />" +
-            "- /roomdevoice <em>username</em>: remove a room voice<br />" +
-            "- /modchat <em>[off/autoconfirmed/+]</em>: set modchat level<br />" +
+            "Room moderators (@) Peut également utiliser:<br />" +
+            "- /roomban OR /rb <em>username</em>: Ban un user de la room<br />" +
+            "- /roomunban <em>username</em>: Unban un user de la room<br />" +
+            "- /roomvoice <em>username</em>: Promote un voice dans la room<br />" +
+            "- /roomdevoice <em>username</em>: Demote un voice<br />" +
+            "- /modchat <em>[off/autoconfirmed/+]</em>: Définir le niveau de modchat<br />" +
             "<br />" +
-            "Room owners (#) can also use:<br />" +
-            "- /roomintro <em>intro</em>: sets the room introduction that will be displayed for all users joining the room<br />" +
-            "- /rules <em>rules link</em>: set the room rules link seen when using /rules<br />" +
-            "- /roommod, /roomdriver <em>username</em>: appoint a room moderator/driver<br />" +
-            "- /roomdemod, /roomdedriver <em>username</em>: remove a room moderator/driver<br />" +
-            "- /modchat <em>[%/@/#]</em>: set modchat level<br />" +
-            "- /declare <em>message</em>: make a large blue declaration to the room<br />" +
-            "- !htmlbox <em>HTML code</em>: broadcasts a box of HTML code to the room<br />" +
-            "- !showimage <em>[url], [width], [height]</em>: shows an image to the room<br />" +
+            "Room owners (#) Peut également utiliser:<br />" +
+            "- /roomintro <em>intro</em>: Définit l'introduction de la room qui sera affichée pour tous les utilisateurs rejoignant la room<br />" +
+            "- /rules <em>rules link</em>: Définissez le lien de règles de la pièce vu lors de l'utilisation /rules<br />" +
+            "- /roommod, /roomdriver <em>username</em>: Nomme un modérateur/driver<br />" +
+            "- /roomdemod, /roomdedriver <em>username</em>: Demote un driver/voice<br />" +
+            "- /modchat <em>[%/@/#]</em>: Définir le niveau de modchat<br />" +
+            "- /declare <em>message</em>:Faire une grande déclaration bleue dans la room<br />" +
+            "- !htmlbox <em>HTML code</em>: Diffuse une boîte de code HTML dans la room<br />" +
+            "- !showimage <em>[url], [width], [height]</em>: Montre une image dans la room<br />" +
             "<br />" +
-            "Room founders (#) can also use<br />" +
-            "- /roomowner <em>username</em> - Appoints username as a room owner<br />" +
+            "Room founders (#) Peut également utiliser<br />" +
+            "- /roomowner <em>username</em> Nomme le nom d'utilisateur roomowner<br />" +
             "<br />" +
-            "More detailed help can be found in the <a href=\"https://www.smogon.com/sim/roomauth_guide\">roomauth guide</a><br />" +
+            "Pensez a lire le réglement avec /regle<br />" +
             "</div>"
         );
-    }
+    },
+    	roomleader: function (target, room, user) {
+		if (!room.chatRoomData) {
+			return this.sendReply("/roomowner - This room isn't designed for per-room moderation to be added");
+		}
+		target = this.splitTarget(target, true);
+		var targetUser = this.targetUser;
+
+		if (!targetUser) return this.sendReply("User '" + this.targetUsername + "' is not online.");
+
+		if (!room.founder) return this.sendReply('The room needs a room founder before it can have a room owner.');
+		if (room.founder !== user.userid && !this.can('makeroom')) return this.sendReply('/roomowner - Access denied.');
+
+		if (!room.auth) room.auth = room.chatRoomData.auth = {};
+
+		var name = targetUser.name;
+
+		room.auth[targetUser.userid] = '&';
+		this.addModCommand("" + name + " was appointed Room Leader by " + user.name + ".");
+		room.onUpdateIdentity(targetUser);
+		Rooms.global.writeChatRoomData();
+	},
+
+
+	roomdeleader: 'deroomowner',
+	deroomleader: function (target, room, user) {
+		if (!room.auth) {
+			return this.sendReply("/roomdeowner - This room isn't designed for per-room moderation");
+		}
+		target = this.splitTarget(target, true);
+		var targetUser = this.targetUser;
+		var name = this.targetUsername;
+		var userid = toId(name);
+		if (!userid || userid === '') return this.sendReply("User '" + name + "' does not exist.");
+
+		if (room.auth[userid] !== '&') return this.sendReply("User '"+name+"' is not a room leader.");
+		if (!room.founder || user.userid !== room.founder && !this.can('makeroom', null, room)) return false;
+
+		delete room.auth[userid];
+		this.sendReply("(" + name + " is no longer Room Leader.)");
+		if (targetUser) targetUser.updateIdentity();
+		if (room.chatRoomData) {
+			Rooms.global.writeChatRoomData();
+		}
+        }
 };
