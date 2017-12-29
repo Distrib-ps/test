@@ -1,4 +1,4 @@
-Pokémon Showdown Command API
+Pokémon Showdown Command API d
 ========================================================================
 
 Defining a Command
